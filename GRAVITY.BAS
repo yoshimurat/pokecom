@@ -1,52 +1,56 @@
+REM GRAVITY.BAS FOR PC-G850
+REM  OBJECTIVE   :黒いマルまでジャンプしてください
+REM  HOW TO PLAY : 1:横軸の速度決定 2:縦軸の速度決定
+
 10 CLEAR:RANDOMIZE
 20 R=1,S=0,MX=133,MY=40,PX=0,PY=0
 30 DIM B$(6):DIM GX(6):DIM GY(6)
 40 *LD1
 50 FOR I=1 TO 6:READ GX(I):NEXT
-60 FOR I=1 to 6:read gy(i):next
+60 FOR I=1 TO 6:READ GY(I):NEXT
 70 *INIT
-80 cls:f=0,m=0,vx=0,vy=0,a=3
-90 if r=1 gosub *r1
-100 if r=2 gosub *r2
-110 if r=3 gosub *r3
-120 if r=4 gosub *r4
-130 if r>4 gosub *r5
-140 locate 14,5:print s:locate 19,5:print t:locate 22,0:print r
-150 gosub *ld2
-160 circle (gx(r)*8+9,gy(r)*8+4),3,,,,,5:pset(x,y)
-170 *ti
-180 if m=1 goto *m1
-190 if m=2 goto *m2
-200 if px>=0 let px=px+2:if px>40 let px=px-40:px=-px:line(4,43)-(84,43),r
-210 if px<0 let px=px-2:if px<-40 let px=px+40:px=-px:line(4,43)-(84,43),r
-220 line(44,43)-(44+px,43)
-230 if inkey$="1" let vx=px:m=1
-240 goto *cmn
-250 *m1
-260 py=py+2:if py>30 let py=py-30:line(2,2)-(2,42-py)
-270 if inkey$="2" let vy=py:m=2:t=t-50
-280 goto *cmn
-290 *m2
-300 vy=vy-g:nx=x+vx*.05:ny=y-vy*.075
-310 if point(nx,ny) gosub *chk
-320 if not(int(nx)=int(x)) let s=s+1
-330 if not(int(ny)=int(y)) let s=s+2
-340 line(nx,ny)-(x,y):x=nx:y=ny
-350 *cmn
-360 t=t-1:locate 14,5:print s:locate 19,5:print t:locate 22,0:print r
-370 if t=0 goto *exp else goto *ti
-380 *chk
-390 if nx>gx(r)*8+5 and nx<gx(r)*8+13 and ny>gy(r)*8 and ny<gy(r)*8+8 goto *land
-400 if nx<4 or nx>mx or ny<0 or ny>my goto *exp
-410 sx=int((nx-5)/8):sy=int(ny/8):rx=int((x-5)/8):ry=int(y/8)
-420 if mid$(b$(sy+1),sx+1,1)="0" return
-430 fx=0
-440 if rx>sx let nx=2*((sx+1)*8+5)-nx
-450 if rx<sx let nx=2+(sx*8+5)-nx
-460 if ry>sy let ny=2*8*(sy+1)-ny:vy=-vy:fx=1
-470 if ry<sy let ny=sy*8-1:vx=0:vy=:m=0
-480 if fx=0 and not(rx=sx) let vx=-vx
-490 return
+80 CLS:F=0,M=0,VX=0,VY=0,A=3
+90 IF R=1 GOSUB *R1
+100 IF R=2 GOSUB *R2
+110 IF R=3 GOSUB *R3
+120 IF R=4 GOSUB *R4
+130 IF R>4 GOSUB *R5
+140 LOCATE 14,5:PRINT S:LOCATE 19,5:PRINT T:LOCATE 22,0:PRINT R
+150 GOSUB *LD2
+160 CIRCLE (GX(R)*8+9,GY(R)*8+4),3,,,,,5:PSET(X,Y)
+170 *TI
+180 IF M=1 GOTO *M1
+190 IF M=2 GOTO *M2
+200 IF PX>=0 LET PX=PX+2:IF PX>40 LET PX=PX-40:PX=-PX:LINE(4,43)-(84,43),R
+210 IF PX<0 LET PX=PX-2:IF PX<-40 LET PX=PX+40:PX=-PX:LINE(4,43)-(84,43),R
+220 LINE(44,43)-(44+PX,43)
+230 IF INKEY$="1" LET VX=PX:M=1
+240 GOTO *CMN
+250 *M1
+260 PY=PY+2:IF PY>30 LET PY=PY-30:LINE(2,2)-(2,42-PY)
+270 IF INKEY$="2" LET VY=PY:M=2:T=T-50
+280 GOTO *CMN
+290 *M2
+300 VY=VY-G:NX=X+VX*.05:NY=Y-VY*.075
+310 IF POINT(NX,NY) GOSUB *CHK
+320 IF NOT(INT(NX)=INT(X)) LET S=S+1
+330 IF NOT(INT(NY)=INT(Y)) LET S=S+2
+340 LINE(NX,NY)-(X,Y):X=NX:Y=NY
+350 *CMN
+360 T=T-1:LOCATE 14,5:PRINT S:LOCATE 19,5:PRINT T:LOCATE 22,0:PRINT R
+370 IF T=0 GOTO *EXP ELSE GOTO *TI
+380 *CHK
+390 IF NX>GX(R)*8+5 AND NX<GX(R)*8+13 AND NY>GY(R)*8 AND NY<GY(R)*8+8 GOTO *LAND
+400 IF NX<4 OR NX>MX OR NY<0 OR NY>MY GOTO *EXP
+410 SX=INT((NX-5)/8):SY=INT(NY/8):RX=INT((X-5)/8):RY=INT(Y/8)
+420 IF MID$(B$(SY+1),SX+1,1)="0" RETURN
+430 FX=0
+440 IF RX>SX LET NX=2*((SX+1)*8+5)-NX
+450 IF RX<SX LET NX=2+(SX*8+5)-NX
+460 IF RY>SY LET NY=2*8*(SY+1)-NY:VY=-VY:FX=1
+470 IF RY<SY LET NY=SY*8-1:VX=0:VY=:M=0
+480 IF FX=0 AND NOT(RX=SX) LET VX=-VX
+490 RETURN
 500 *EXP
 510 FOR I=0 TO 40:LINE(NX,NY)-(RND(MX),RND(MY)),X:NEXT
 520 OUT &H40,&HA7
@@ -84,6 +88,3 @@
 840 DATA 0,0,33664,32768,63551
 850 DATA 65535,8257,46717,34305,61439
 860 DATA 0,0,384,32770,6144
-
-
-
